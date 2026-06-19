@@ -8,6 +8,7 @@ main{
 #glavni{
     margin: 0 auto;
 }
+/*treba namunjiti da moze lepo da radi za fon*/
 main section{
     display: flex;
     flex-direction: row;

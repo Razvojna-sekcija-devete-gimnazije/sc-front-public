@@ -1,10 +1,8 @@
-import { useState } from 'react'
 import Header from './components/Header.jsx'
 import './App.css'
 import SkolaImg from "./assets/skola.jpg";
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
