@@ -1,11 +1,8 @@
-import { useState } from 'react';
 import './Header.css';
 import logoImg from "../../assets/deveta.png";
+import HamburgerMenu from "./HamburgerMenu/HamburgerMenu"
 
 function Header() {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isClosing, setIsClosing] = useState(false);
-    const [hamburgerOpen, setHamburgerOpen] = useState(false);
 
     const NAV_LINKS = [
         { label: 'Ucitelji', path: '/' },
@@ -14,28 +11,6 @@ function Header() {
         { label: 'Maturski radovi', path: '/' }
     ];
 
-    const openMenu = () => {
-        setIsOpen(true);
-        setIsClosing(false);
-        setHamburgerOpen(true);
-    };
-
-    const closeMenu = () => {
-        setHamburgerOpen(false);
-        setIsClosing(true);
-        setTimeout(() => {
-            setIsOpen(false);
-            setIsClosing(false);
-        }, 700);
-    };
-
-    const toggleMenu = () => {
-        if (isOpen && !isClosing) {
-            closeMenu();
-        } else if (!isOpen) {
-            openMenu();
-        }
-    };
 
     return (
         <header className='header'>
@@ -43,33 +18,17 @@ function Header() {
                 <a href="/"><img src={logoImg} alt='logo devete' /></a>
             </div>
 
-            <button
-                className={`hamburger ${hamburgerOpen  ? 'open' : ''}`}
-                onClick={toggleMenu}
-                aria-label="Toggle navigation"
-                aria-expanded={isOpen}
-            >
-                <span className='bar'></span>
-                <span className='bar'></span>
-                <span className='bar'></span>
-            </button>
-
-            <nav className={`nav-menu ${isOpen && !isClosing ? 'open' : ''}`}>
+            <nav className='nav-menu'>
                 <ul>
                     {NAV_LINKS.map((link) => (
                         <li key={link.label}>
-                            <a href={link.path} onClick={closeMenu}>{link.label}</a>
+                            <a href={link.path}>{link.label}</a>
                         </li>
                     ))}
                 </ul>
             </nav>
 
-            {isOpen && (
-                <div
-                    className={`nav-overlay ${isClosing ? 'closing' : ''}`}
-                    onClick={closeMenu}
-                ></div>
-            )}
+            <HamburgerMenu navLinks={NAV_LINKS} />
         </header>
     );
 }

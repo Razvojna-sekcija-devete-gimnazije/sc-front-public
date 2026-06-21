@@ -1,0 +1,121 @@
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 600;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--color-primary);
+    border-radius: 3px;
+}
+
+.hamburger .bar:nth-child(1) {
+    transform: translateY(0) rotate(0);
+    transition: transform 0.25s ease 0s;
+}
+.hamburger .bar:nth-child(2) {
+    opacity: 1;
+    transition: opacity 0.15s ease 0.05s;
+}
+.hamburger .bar:nth-child(3) {
+    transform: translateY(0) rotate(0);
+    transition: transform 0.25s ease 0s;
+}
+
+.hamburger.open .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+    transition: transform 0.25s ease 0.15s;
+}
+.hamburger.open .bar:nth-child(2) {
+    opacity: 0;
+    transition: opacity 0.15s ease 0s;
+}
+.hamburger.open .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+    transition: transform 0.25s ease 0.15s;
+}
+
+.hamburger-nav {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+
+    .hamburger-nav {
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--color-bg);
+        border-bottom: 2px solid var(--color-border);
+        z-index: 490;
+        padding: 1.5rem 2rem;
+        box-sizing: border-box;
+
+        clip-path: inset(0 0 100% 0);
+        transition: clip-path 0.3s ease 0s;
+    }
+
+    .hamburger-nav.open {
+        clip-path: inset(0 0 0 0);
+        transition: clip-path 0.3s ease 0.4s;
+    }
+
+    .hamburger-nav ul {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        gap: 2rem;
+        margin: 0;
+        padding: 0;
+    }
+
+    .hamburger-nav a {
+        text-decoration: none;
+        color: var(--color-text);
+        font-weight: 500;
+        font-size: 1.2rem;
+        transition: color 0.2s ease;
+    }
+
+    .hamburger-nav a:hover {
+        color: var(--color-primary-hover);
+    }
+
+    .nav-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background-color: var(--color-overlay);
+        z-index: 480;
+        opacity: 0;
+        animation: fadeIn 0.4s ease forwards;
+    }
+
+    .nav-overlay.closing {
+        animation: fadeOut 0.4s ease 0.3s both;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
