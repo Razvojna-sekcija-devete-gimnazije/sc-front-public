@@ -3,11 +3,11 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: #ffffff;
+    background-color: var(--color-bg);
     position: sticky;
     top: 0;
     z-index: 500;
-    border-bottom: #0070c2 2px solid;
+    border-bottom: var(--color-border) 2px solid;
 }
 
 .logo img {
@@ -16,7 +16,6 @@
     margin-bottom: -4rem;
 }
 
-/* ── Desktop nav ── */
 .nav-menu ul {
     display: flex;
     list-style: none;
@@ -27,16 +26,15 @@
 
 .nav-menu a {
     text-decoration: none;
-    color: #555;
+    color: var(--color-text);
     font-weight: 500;
     transition: color 0.2s ease;
 }
 
 .nav-menu a:hover {
-    color: #0070f3;
+    color: var(--color-primary-hover);
 }
 
-/* ── Hamburger dugme ── */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -53,28 +51,43 @@
     display: block;
     width: 25px;
     height: 3px;
-    background-color: #0070c2;
+    background-color: var(--color-primary);
     border-radius: 3px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Animacija u X */
+.hamburger .bar:nth-child(1) {
+    transform: translateY(0) rotate(0);
+    transition: transform 0.25s ease 0s;
+}
+.hamburger .bar:nth-child(2) {
+    opacity: 1;
+    transition: opacity 0.15s ease 0.05s; 
+}
+.hamburger .bar:nth-child(3) {
+    transform: translateY(0) rotate(0);
+    transition: transform 0.25s ease 0s;
+}
+
 .hamburger.open .bar:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
+    transition:
+        transform 0.25s ease 0s; 
 }
 .hamburger.open .bar:nth-child(2) {
     opacity: 0;
+    transition:
+        opacity 0.15s ease 0s;
 }
 .hamburger.open .bar:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
+    transition:
+        transform 0.25s ease 0s;
 }
 
-/* ── Overlay (tamni sloj iza menija) ── */
 .nav-overlay {
     display: none;
 }
 
-/* ── Mobilni stil ── */
 @media (max-width: 768px) {
     .hamburger {
         display: flex;
@@ -85,21 +98,21 @@
         top: 100%;
         left: 0;
         width: 100%;
-        background-color: #ffffff;
-        border-bottom: #0070c2 2px solid;
+        background-color: var(--color-bg);
+        border-bottom: 2px solid var(--color-border);
         border-left: none;
         flex-direction: column;
         z-index: 490;
         padding: 1.5rem 2rem;
         box-sizing: border-box;
 
-        /* Sakriva meni - clip od gore prema dole */
         clip-path: inset(0 0 100% 0);
-        transition: clip-path 0.3s ease;
+        transition: clip-path 0.3s ease 0s;
     }
 
     .nav-menu.open {
-        clip-path: inset(0 0 0 0); /* potpuno vidljiv */
+        clip-path: inset(0 0 0 0);
+        transition: clip-path 0.3s ease 0s; 
     }
 
     .nav-menu ul {
@@ -115,7 +128,24 @@
         display: block;
         position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.4);
+        background-color: var(--color-overlay);
         z-index: 480;
+
+        opacity: 0;
+        animation: fadeIn 0.4s ease forwards;
     }
+
+    .nav-overlay.closing {
+        animation: fadeOut 0.4s ease 0.3s both;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
 }

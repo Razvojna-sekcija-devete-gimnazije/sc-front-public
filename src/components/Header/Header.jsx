@@ -4,6 +4,8 @@ import logoImg from "../../assets/deveta.png";
 
 function Header() {
     const [isOpen, setIsOpen] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
+    const [hamburgerOpen, setHamburgerOpen] = useState(false);
 
     const NAV_LINKS = [
         { label: 'Ucitelji', path: '/' },
@@ -12,12 +14,27 @@ function Header() {
         { label: 'Maturski radovi', path: '/' }
     ];
 
-    const toggleMenu = () => {
-        setIsOpen(prev => !prev);
+    const openMenu = () => {
+        setIsOpen(true);
+        setIsClosing(false);
+        setHamburgerOpen(true);
     };
 
     const closeMenu = () => {
-        setIsOpen(false);
+        setHamburgerOpen(false);
+        setIsClosing(true);
+        setTimeout(() => {
+            setIsOpen(false);
+            setIsClosing(false);
+        }, 700);
+    };
+
+    const toggleMenu = () => {
+        if (isOpen && !isClosing) {
+            closeMenu();
+        } else if (!isOpen) {
+            openMenu();
+        }
     };
 
     return (
@@ -27,7 +44,7 @@ function Header() {
             </div>
 
             <button
-                className={`hamburger ${isOpen ? 'open' : ''}`}
+                className={`hamburger ${hamburgerOpen  ? 'open' : ''}`}
                 onClick={toggleMenu}
                 aria-label="Toggle navigation"
                 aria-expanded={isOpen}
@@ -37,7 +54,7 @@ function Header() {
                 <span className='bar'></span>
             </button>
 
-            <nav className={`nav-menu ${isOpen ? 'open' : ''}`}>
+            <nav className={`nav-menu ${isOpen && !isClosing ? 'open' : ''}`}>
                 <ul>
                     {NAV_LINKS.map((link) => (
                         <li key={link.label}>
@@ -47,7 +64,12 @@ function Header() {
                 </ul>
             </nav>
 
-            {isOpen && <div className='nav-overlay' onClick={closeMenu}></div>}
+            {isOpen && (
+                <div
+                    className={`nav-overlay ${isClosing ? 'closing' : ''}`}
+                    onClick={closeMenu}
+                ></div>
+            )}
         </header>
     );
 }
