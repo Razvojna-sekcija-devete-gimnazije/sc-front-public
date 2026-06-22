@@ -1,4 +1,3 @@
-import Header from '../../components/Header.jsx'
 import './HomePage.css'
 import SkolaImg from "../../assets/skola.jpg";
 
@@ -6,7 +5,6 @@ function HomePage() {
 
   return (
     <>
-      <Header />
       <main>
         <h1 id="glavni">Deveta Gimnazija M.P.Alas</h1>
         <section>
