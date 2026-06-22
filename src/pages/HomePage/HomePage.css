@@ -1,0 +1,51 @@
+main{
+    width: 1000px;
+    max-width: max-content;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+#glavni{
+    margin: 0 auto;
+}
+/*treba namunjiti da moze lepo da radi za fon*/
+main section{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-content: center;
+}
+/*kod koji ce skrolovati horizontalno kada se dodaju divovi u kojima su kartice*/
+main .kartice{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    overflow-x: scroll;
+    scroll-snap-type: mandatory;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+    height: 500px;
+}
+main .kartice div{
+    flex: 0 0 300px;/*menja sirinu kartice*/
+    margin:0 1rem;
+    scroll-snap-align: start; 
+}
+.kartica{
+    background-color: #0070c2;
+    color:#f4f3ec;
+    border-color: #f4f3ec;
+    border-radius: 10px;
+    border: 3px solid;
+    padding: 1rem;
+}
+.kartica h2{color:#f4f3ec}
+/********************************/
+main section div{
+    width: 48%;
+}
+img{
+    width: 100%;
+    height: auto;
+}

@@ -1,30 +1,74 @@
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { appRoutes } from '../config/AppRoutes'; 
 import './Header.css';
 import logoImg from "../assets/deveta.png";
 
 function Header() {
-    const NAV_LINKS=[
-        {label:'Ucitelji', path:'/'},
-        {label:'Opste info', path:'/'},
-        {label:'Casopis', path:'/'},
-        {label:'maturski radovi', path:'/'}
-    ]
+  const [openDropdown, setOpenDropdown] = useState(null);
+
+  const toggleDropdown = (routeId) => {
+    if (openDropdown === routeId) {
+      setOpenDropdown(null);
+    } else {
+      setOpenDropdown(routeId);
+    }
+  };
+
   return (
     <header className='header'>
         <div className='logo'>
-            <a href="/"><img src={logoImg} alt='logo devete' className='logo'/></a>
+            <NavLink to="/" onClick={() => setOpenDropdown(null)}>
+                <img src={logoImg} alt='logo devete' />
+            </NavLink>
         </div>
-        {/* moze dinamicki da se stavi toggle preko klasa i dugmeta*/}
+
         <nav className='nav-menu'>
             <ul>
-                {NAV_LINKS.map((link)=>(
-                    <li>
-                        <a href={link.path}>{link.label}</a>
-                    </li>
-                ))}
+                {appRoutes
+                    .filter(route => route.showInMenu)
+                    .map(route => {
+                        
+                        if (route.children && route.children.length > 0) {
+                            const isCurrentOpen = openDropdown === route.id;
+
+                            return (
+                                <li key={route.id} className="dropdown">
+                                    <span 
+                                        className={`dropdown-trigger ${isCurrentOpen ? 'active-trigger' : ''}`}
+                                        onClick={() => toggleDropdown(route.id)}
+                                    >
+                                        {route.name} {isCurrentOpen ? '▴' : '▾'}
+                                    </span>
+                                    <ul className={`dropdown-menu ${isCurrentOpen ? 'open' : ''}`}>
+                                        {route.children
+                                            .filter(child => child.showInMenu)
+                                            .map(child => (
+                                                <li key={child.id}>
+                                                    <NavLink 
+                                                        to={`${route.path}/${child.path}`}
+                                                        onClick={() => setOpenDropdown(null)}>
+                                                        {child.name}
+                                                    </NavLink>
+                                                </li>
+                                            ))}
+                                    </ul>
+                                </li>
+                            );
+                        }
+
+                        return (
+                            <li key={route.id}>
+                                <NavLink to={route.path} onClick={() => setOpenDropdown(null)}>
+                                    {route.name}
+                                </NavLink>
+                            </li>
+                        );
+                    })}
             </ul>
         </nav>
     </header>
   );
 }
 
-export default Header
+export default Header;
