@@ -1,4 +1,4 @@
-.header{
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -9,25 +9,81 @@
     z-index: 500;
     border-bottom: #0070c2 2px solid;
 }
-/*treba namunjiti da moze lepo da radi za fon kada se doda hamburger za fon*/
-.nav-menu ul{
+
+.logo img {
+    height: 8rem;
+    width: auto;
+    margin-bottom: -4rem;
+}
+
+.nav-menu ul {
     display: flex;
     list-style: none;
     gap: 2rem;
     margin: 0;
     padding: 0;
 }
-.nav-menu a {
+
+.nav-menu a, .dropdown-trigger {
     text-decoration: none;
     color: #555;
     font-weight: 500;
     transition: color 0.2s ease;
+    cursor: pointer;
+    user-select: none; 
 }
-.nav-menu a:hover {
+
+
+.nav-menu a:hover, 
+.dropdown-trigger:hover, 
+.nav-menu a.active,
+.active-trigger {
     color: #0070f3;
 }
-.logo img{
-    height:8rem;
-    width: auto;
-    margin-bottom: -4rem;
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none !important; 
+    position: absolute;
+    top: 100%;                  
+    left: 50%;
+    transform: translateX(-50%); 
+    background-color: #ffffff;
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+    min-width: 160px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+    border-radius: 4px;
+    border-top: #0070c2 2px solid; 
+    padding-top: 0.75rem;
+    margin-top: 0.5rem;         
+    z-index: 999;            
+}
+
+.dropdown-menu.open {
+    display: block !important;
+}
+
+.dropdown-menu li {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 0.6rem 1.2rem;
+    color: #555;
+    font-size: 0.95rem;
+    white-space: nowrap;       
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #f0f7ff; 
+    color: #0070f3;
 }
