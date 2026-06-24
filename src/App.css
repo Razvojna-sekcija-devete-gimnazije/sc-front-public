@@ -1,12 +1,13 @@
 main{
     width: 1000px;
-    max-width: max-content;
+    max-width: 90%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
 }
 #glavni{
-    margin: 0 auto;
+    margin-left:  auto;
+    margin-right: auto;
 }
 /*treba namunjiti da moze lepo da radi za fon*/
 main section{
