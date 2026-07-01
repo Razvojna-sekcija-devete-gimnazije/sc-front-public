@@ -1,0 +1,27 @@
+.kartica {
+  display: flex;
+  width: 280px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.kartica-slika {
+  height:40%;
+  display: block;
+  border-radius: 8px;
+}
+
+.kartica-tekst {
+  padding: 15px;
+}
+
+.kartica-naslov {
+  font-size: 30px;
+}
+
+@media (max-width: 768px) {
+  .kartica {
+    width: 60%;
+  }
+}
