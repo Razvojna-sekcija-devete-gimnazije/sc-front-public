@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import './HamburgerMenu.css';
 
 function HamburgerMenu({ navLinks }) {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isClosing, setIsClosing] = useState(false);
+    const [isOpen, setIsOpen]             = useState(false);
+    const [isClosing, setIsClosing]       = useState(false);
     const [hamburgerOpen, setHamburgerOpen] = useState(false);
+    const [openSection, setOpenSection]   = useState(null);
 
     const openMenu = () => {
         setIsOpen(true);
@@ -15,6 +17,7 @@ function HamburgerMenu({ navLinks }) {
     const closeMenu = () => {
         setHamburgerOpen(false);
         setIsClosing(true);
+        setOpenSection(null);
         setTimeout(() => {
             setIsOpen(false);
             setIsClosing(false);
@@ -22,11 +25,12 @@ function HamburgerMenu({ navLinks }) {
     };
 
     const toggleMenu = () => {
-        if (isOpen && !isClosing) {
-            closeMenu();
-        } else if (!isOpen) {
-            openMenu();
-        }
+        if (isOpen && !isClosing) closeMenu();
+        else if (!isOpen) openMenu();
+    };
+
+    const toggleSection = (id) => {
+        setOpenSection(prev => prev === id ? null : id);
     };
 
     return (
@@ -34,7 +38,7 @@ function HamburgerMenu({ navLinks }) {
             <button
                 className={`hamburger ${hamburgerOpen ? 'open' : ''}`}
                 onClick={toggleMenu}
-                aria-label="Toggle navigation"
+                aria-label="Otvori navigaciju"
                 aria-expanded={isOpen}
             >
                 <span className='bar'></span>
@@ -43,12 +47,59 @@ function HamburgerMenu({ navLinks }) {
             </button>
 
             <nav className={`hamburger-nav ${isOpen && !isClosing ? 'open' : ''}`}>
-                <ul>
-                    {navLinks.map((link) => (
-                        <li key={link.name}>
-                            <a href={link.path} onClick={closeMenu}>{link.name}</a>
-                        </li>
-                    ))}
+                <ul className="hb-list">
+                    {navLinks
+                        .filter(link => link.showInMenu)
+                        .map(link => {
+                            if (link.children?.length > 0) {
+                                const isExpanded = openSection === link.id;
+                                return (
+                                    <li key={link.id} className="hb-item">
+                                        <button
+                                            className={`hb-section-btn ${isExpanded ? 'expanded' : ''}`}
+                                            onClick={() => toggleSection(link.id)}
+                                            aria-expanded={isExpanded}
+                                        >
+                                            {link.name}
+                                            <svg className="hb-chevron" width="14" height="14" viewBox="0 0 12 12" fill="none">
+                                                <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                                            </svg>
+                                        </button>
+                                        <ul className={`hb-children ${isExpanded ? 'open' : ''}`}>
+                                            {link.children
+                                                .filter(child => child.showInMenu)
+                                                .map(child => (
+                                                    <li key={child.id}>
+                                                        <NavLink
+                                                            to={`${link.path}/${child.path}`}
+                                                            className={({ isActive }) =>
+                                                                isActive ? 'hb-child-link active' : 'hb-child-link'
+                                                            }
+                                                            onClick={closeMenu}
+                                                        >
+                                                            {child.name}
+                                                        </NavLink>
+                                                    </li>
+                                                ))}
+                                        </ul>
+                                    </li>
+                                );
+                            }
+
+                            return (
+                                <li key={link.id} className="hb-item">
+                                    <NavLink
+                                        to={link.path}
+                                        className={({ isActive }) =>
+                                            isActive ? 'hb-link active' : 'hb-link'
+                                        }
+                                        onClick={closeMenu}
+                                    >
+                                        {link.name}
+                                    </NavLink>
+                                </li>
+                            );
+                        })}
                 </ul>
             </nav>
 

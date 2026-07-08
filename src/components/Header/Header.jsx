@@ -1,26 +1,15 @@
-import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { appRoutes } from '../../config/AppRoutes'; 
+import { appRoutes } from '../../config/AppRoutes';
 import './Header.css';
 import logoImg from "../../assets/deveta.png";
 import HamburgerMenu from './HamburgerMenu/HamburgerMenu';
 
 function Header() {
-  const [openDropdown, setOpenDropdown] = useState(null);
-
-  const toggleDropdown = (routeId) => {
-    if (openDropdown === routeId) {
-      setOpenDropdown(null);
-    } else {
-      setOpenDropdown(routeId);
-    }
-  };
-
   return (
     <header className='header'>
         <div className='logo'>
-            <NavLink to="/" onClick={() => setOpenDropdown(null)}>
-                <img src={logoImg} alt='logo devete' />
+            <NavLink to="/">
+                <img src={logoImg} alt='Logo Devete gimnazije' />
             </NavLink>
         </div>
 
@@ -29,38 +18,45 @@ function Header() {
                 {appRoutes
                     .filter(route => route.showInMenu)
                     .map(route => {
-                        
-                        if (route.children && route.children.length > 0) {
-                            const isCurrentOpen = openDropdown === route.id;
-
+                        if (route.children?.length > 0) {
                             return (
-                                <li key={route.id} className="dropdown">
-                                    <span 
-                                        className={`dropdown-trigger ${isCurrentOpen ? 'active-trigger' : ''}`}
-                                        onClick={() => toggleDropdown(route.id)}
-                                    >
-                                        {route.name} {isCurrentOpen ? '▴' : '▾'}
+                                <li key={route.id} className="nav-item has-dropdown">
+                                    <span className="nav-link dropdown-trigger">
+                                        {route.name}
+                                        <svg className="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                            <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </svg>
                                     </span>
-                                    <ul className={`dropdown-menu ${isCurrentOpen ? 'open' : ''}`}>
-                                        {route.children
-                                            .filter(child => child.showInMenu)
-                                            .map(child => (
-                                                <li key={child.id}>
-                                                    <NavLink 
-                                                        to={`${route.path}/${child.path}`}
-                                                        onClick={() => setOpenDropdown(null)}>
-                                                        {child.name}
-                                                    </NavLink>
-                                                </li>
-                                            ))}
-                                    </ul>
+                                    <div className="dropdown-panel">
+                                        <ul className="dropdown-list">
+                                            {route.children
+                                                .filter(child => child.showInMenu)
+                                                .map(child => (
+                                                    <li key={child.id}>
+                                                        <NavLink
+                                                            to={`${route.path}/${child.path}`}
+                                                            className={({ isActive }) =>
+                                                                isActive ? 'dropdown-link active' : 'dropdown-link'
+                                                            }
+                                                        >
+                                                            {child.name}
+                                                        </NavLink>
+                                                    </li>
+                                                ))}
+                                        </ul>
+                                    </div>
                                 </li>
                             );
                         }
 
                         return (
-                            <li key={route.id}>
-                                <NavLink to={route.path} onClick={() => setOpenDropdown(null)}>
+                            <li key={route.id} className="nav-item">
+                                <NavLink
+                                    to={route.path}
+                                    className={({ isActive }) =>
+                                        isActive ? 'nav-link active' : 'nav-link'
+                                    }
+                                >
                                     {route.name}
                                 </NavLink>
                             </li>
@@ -69,7 +65,7 @@ function Header() {
             </ul>
         </nav>
 
-        <HamburgerMenu navLinks={appRoutes}/>
+        <HamburgerMenu navLinks={appRoutes} />
     </header>
   );
 }
