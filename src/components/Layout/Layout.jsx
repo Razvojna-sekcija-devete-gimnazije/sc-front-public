@@ -1,5 +1,5 @@
 import { Outlet, useNavigation } from 'react-router-dom';
-import Header from '../Header';
+import Header from '../Header/Header';
 import LoadingSpinner from '../Loading/LoadingSpinner';
 
 export default function Layout() {

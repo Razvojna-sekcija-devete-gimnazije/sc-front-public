@@ -45,8 +45,8 @@ function HamburgerMenu({ navLinks }) {
             <nav className={`hamburger-nav ${isOpen && !isClosing ? 'open' : ''}`}>
                 <ul>
                     {navLinks.map((link) => (
-                        <li key={link.label}>
-                            <a href={link.path} onClick={closeMenu}>{link.label}</a>
+                        <li key={link.name}>
+                            <a href={link.path} onClick={closeMenu}>{link.name}</a>
                         </li>
                     ))}
                 </ul>
