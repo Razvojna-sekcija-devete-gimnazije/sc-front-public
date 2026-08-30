@@ -1,3 +1,4 @@
+/* ── Hamburger dugme ── */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -44,6 +45,7 @@
     transition: transform 0.25s ease 0.15s;
 }
 
+/* ── Nav panel ── */
 .hamburger-nav {
     display: none;
 }
@@ -61,10 +63,9 @@
         width: 100%;
         background-color: var(--color-bg);
         border-bottom: 2px solid var(--color-border);
+        box-shadow: 0 8px 24px rgba(0, 112, 194, 0.08);
         z-index: 490;
-        padding: 1.5rem 2rem;
         box-sizing: border-box;
-
         clip-path: inset(0 0 100% 0);
         transition: clip-path 0.3s ease 0s;
     }
@@ -74,27 +75,119 @@
         transition: clip-path 0.3s ease 0.4s;
     }
 
-    .hamburger-nav ul {
-        display: flex;
-        flex-direction: column;
+    /* ── Lista linkova ── */
+    .hb-list {
         list-style: none;
-        gap: 2rem;
+        margin: 0;
+        padding: 0.75rem 0;
+    }
+
+    .hb-item {
+        border-bottom: 1px solid #f0f4f8;
+    }
+    .hb-item:last-child {
+        border-bottom: none;
+    }
+
+    /* Obični link */
+    .hb-link {
+        display: block;
+        padding: 0.9rem 1.5rem;
+        text-decoration: none;
+        color: #444;
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        border-left: 3px solid transparent;
+        transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .hb-link:hover {
+        color: var(--color-primary);
+        border-left-color: var(--color-primary);
+        background-color: #f0f7ff;
+    }
+
+    .hb-link.active {
+        color: var(--color-primary);
+        border-left-color: var(--color-primary);
+        font-weight: 700;
+    }
+
+    /* Sekcija sa children */
+    .hb-section-btn {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.9rem 1.5rem;
+        background: none;
+        border: none;
+        border-left: 3px solid transparent;
+        color: #444;
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        cursor: pointer;
+        text-align: left;
+        transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .hb-section-btn:hover,
+    .hb-section-btn.expanded {
+        color: var(--color-primary);
+        border-left-color: var(--color-primary);
+        background-color: #f0f7ff;
+    }
+
+    .hb-chevron {
+        transition: transform 0.25s ease;
+        flex-shrink: 0;
+        color: currentColor;
+    }
+
+    .hb-section-btn.expanded .hb-chevron {
+        transform: rotate(180deg);
+    }
+
+    /* Children lista */
+    .hb-children {
+        list-style: none;
         margin: 0;
         padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        background-color: #f8fbff;
+        transition: max-height 0.3s ease;
     }
 
-    .hamburger-nav a {
+    .hb-children.open {
+        max-height: 400px;
+    }
+
+    .hb-child-link {
+        display: block;
+        padding: 0.75rem 1.5rem 0.75rem 2.5rem;
         text-decoration: none;
-        color: var(--color-text);
+        color: #555;
+        font-size: 0.92rem;
         font-weight: 500;
-        font-size: 1.2rem;
-        transition: color 0.2s ease;
+        border-left: 3px solid transparent;
+        transition: color 0.15s ease, border-color 0.15s ease;
     }
 
-    .hamburger-nav a:hover {
-        color: var(--color-primary-hover);
+    .hb-child-link:hover {
+        color: var(--color-primary);
+        border-left-color: var(--color-primary);
     }
 
+    .hb-child-link.active {
+        color: var(--color-primary);
+        border-left-color: var(--color-primary);
+        font-weight: 700;
+    }
+
+    /* ── Overlay ── */
     .nav-overlay {
         display: block;
         position: fixed;
